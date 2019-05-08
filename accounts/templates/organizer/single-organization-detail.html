@@ -8,9 +8,143 @@
 
 {% block content %}
 
-{{ user.org_name }}
-    {{ user.full_name }}
-    {{ user.email }}
+    <!-- Header Info Organization -->
+    <div class="header-contact">
+        <label>Org Info</label>
+        <p>{{ user.info }}</p>
+    </div>
+
+
+    <!-- DataTables Organization -->
+    <div style="margin:0 auto;width:15%;text-align:left" class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-chart-area"></i>
+              {{ user.org_short_name }} Data Table</div>
+            <div class="card-body">
+              <canvas id="myAreaChart" width="100%" height="30"></canvas>
+            </div>
+          </div>
+
+          <div style="margin:0 auto;width:85%;text-align:left" class="card mb-3">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+
+                  <thead>
+                    <tr>
+                      <th>Permit</th>
+                      <th>Date</th>
+                      <th>Type</th>
+                        <th>Telephone</th>
+                        <th>Fax</th>
+                        <th>Whatsapp</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Bank Account name</th>
+                        <th>Bank Account No.</th>
+                    </tr>
+                  </thead>
+
+                <tbody>
+                    <tr>
+                      <td>{{ user.permit }}</td>
+                      <td>{{ user.created_at }}</td>
+                      <td>{{ user.org_types }}</td>
+                       <td>{{ user.telephone }}</td>
+                      <td>{{ user.fax }}</td>
+                       <td>{{ user.whatsapp }}</td>
+                       <td>{{ user.state }}</td>
+                       <td>{{ user.city }}</td>
+                       <td>{{ user.bank_account_name }}</td>
+                       <td>{{ user.bank_account_number }}</td>
+
+                    </tr>
+                <tbody>
+                </table>
+              </div>
+            </div>
+          </div><br>
+
+    <!-- Style Organization -->
+     <style>
+    .header-contact label{
+        font-size: 25px;
+        padding-left: 7.5%;
+    }
+
+    .card-header{
+        font-size: 25px;
+    }
+
+    .header-contact p{
+        padding-left: 7.5%;
+        width: 80%;
+    }
+
+    span{
+      display: inline-block;
+      width: 280px;
+      text-align: right;
+      padding-left: 50px;
+      padding-right: 50px;
+     }
+
+    .fieldBox label{
+        background-color: #4fc7a4;
+        background-position: center;
+        width: 280px;
+        height: fit-content;
+        padding-left: 7.5%;
+    }
+     .bottom{
+         padding-left: 7.5%;
+     }
+    </style>
+
+
+    <!-- Others Data Fields Organization -->
+    <div class="fieldBox">
+        <p>
+        <label>Goals</label>
+        <span>{{ user.goals }}</span>
+        </p>
+
+        <p>
+        <label>Address</label>
+        <span>{{ user.address }}</span>
+        </p>
+
+        <p>
+        <label>Email</label>
+        <span>{{ user.email }}</span>
+        </p>
+
+        <p>
+        <label>URL Link</label>
+        <span>{{ user.org_links }}</span>
+        </p>
+    </div><br>
+
+    <!-- Organization Social Site -->
+    <div class="bottom">
+        <a class="btn btn-primary btn-twitter btn-sm" href="#">
+            <i class="fa fa-twitter"></i>
+        </a>
+        <a class="btn btn-danger btn-sm" rel="publisher"
+           href="#">
+            <i class="fa fa-google-plus"></i>
+        </a>
+        <a class="btn btn-primary btn-sm" rel="publisher"
+           href="#">
+            <i class="fa fa-facebook"></i>
+        </a>
+        <a class="btn btn-warning btn-sm" rel="publisher" href="#">
+            <i class="fa fa-behance"></i>
+        </a>
+    </div><br><br>
+
+
 
 
 {% endblock %}
