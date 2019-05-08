@@ -21,9 +21,11 @@
                 <div class="cardheader">
 
                 </div>
-                <div class="avatar">
-                    <img alt="" src="{{ MEDIA_URL }} {{ user.photo.url }}">
-                </div>
+                {% if user.photo %}
+                    <div class="avatar">
+                        <img alt="" src="{{ MEDIA_URL }} {{ user.photo.url }}">
+                    </div>
+                {% endif %}
                 <div class="info">
                     <div class="title">
                         <a target="_blank" href="#">Org name: {{ user.org_name }}</a>
