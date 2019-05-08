@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block title %}
+    <title>Donor Available</title>
+{% endblock %}
+
+
+{% block content %}
+    <br><br><br>
+
+
+    <div id="addEventForm">
+
+    {% for user in match %}
+
+        <div style="background-color: rgba(151,165,154,0.33); font-size: 16px; color: #19b212">
+            <p><label>Org Name:  </label><a href="{% url 'single_organization_detail' user.id %}"> {{ user.org_name }}</a></p>
+            <p><label>Email:  </label><a href="{% url 'single_organization_detail' user.id %}"> {{ user.email }}</a></p>
+            <p><label>Telephone:  </label><a href="{% url 'single_organization_detail' user.id %}"> {{ user.telephone }}</a></p>
+        </div>
+
+    {% endfor %}
+
+    <div>
+        <span>Searching Found: {{ match.count }}</span>
+    </div><br>
+
+
+{% endblock %}

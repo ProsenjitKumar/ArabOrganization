@@ -14,61 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from accounts.views import (
-profile,
-home,
-register_page,
-donor_page,
-login_page,
-user_logout,
-contact_us,
-about,
-mission_vision,
-organization,
-available_donor,
-last_donation_date,
-photo_gallery,
-resources,
-# Blodd Type ****************************************
-a_positive,
-a_negative,
-b_positive,
-b_negative,
-ab_positive,
-ab_negative,
-o_positive,
-o_negative,
-
-)
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    # ****************** Accounts ********************
-    path('', home, name='home'),
-    path('profile/', profile, name='profile'),
-    path('register/', register_page, name='register'),
-    path('to-be-a-blood-donor/', donor_page, name='blood_donor_form'),
-    path('login/', login_page, name='login'),
-    path('profile/', profile, name='profile'),
-    path('logout/', user_logout, name='logout'),
-    path('contact-us/', contact_us, name='contact'),
-    path('about/', about, name='about'),
-    path('mission-vision/', mission_vision, name='mission_vision'),
-    path('organization/', organization, name='organization'),
-    path('resources/', resources, name='resources'),
-    path('blood-donors-information-2/', available_donor, name='available_donor'),
-    path('your-last-donation-date/', last_donation_date, name='last_donation_date'),
-    path('photo-gallery/', photo_gallery, name='photo_gallery'),
-    # blood group *******************************************************************
-    path('a-positive/', a_positive, name='a_positive'),
-    path('a-negative/', a_negative, name='a_negative'),
-    path('b-positive/', b_positive, name='b_positive'),
-    path('b-negative/', b_negative, name='b_negative'),
-    path('ab-positive/', ab_positive, name='ab_positive'),
-    path('ab-negative/', ab_negative, name='ab_negative'),
-    path('o-positive/', o_positive, name='o_positive'),
-    path('o-negative/', o_negative, name='o_negative'),
-
-]
+    path('', include('accounts.urls'))
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,14 +1,70 @@
 import uuid
-
 from django.db import models
 from django.contrib.auth.models import (
-AbstractBaseUser, BaseUserManager
+    AbstractBaseUser, BaseUserManager
 )
 from django.db.models.signals import post_save
+from django.utils.text import slugify
 
 
+# ------------------------------------------------------------------------
+# -------- Organization type as drop list or category
+class OrgType(models.Model):
+    name = models.CharField(max_length=66)
+    slug = models.SlugField()
+
+    # Auto create slug according to Organization Type name
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(OrgType, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 
+# -------- State type as drop list or category
+class State(models.Model):
+    name = models.CharField(max_length=66)
+    slug = models.SlugField()
+
+    # Auto create slug according to state name
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(State, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
+# -------- City type as drop list or category
+class City(models.Model):
+    name = models.CharField(max_length=66)
+    slug = models.SlugField()
+
+    # Auto create slug according to city name
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(City, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
+# -------- Bank Name type as drop list or category
+class Bank(models.Model):
+    name = models.CharField(max_length=66)
+    slug = models.SlugField()
+
+    # Auto create slug according to Bank name
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Bank, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
+# ------------------ Base user manager ------------------
 class UserManager(BaseUserManager):
     def create_user(self, email, full_name, password=None, is_active=True, is_staff=False, is_admin=False):
         if not email:
@@ -48,54 +104,46 @@ class UserManager(BaseUserManager):
         return user
 
 
+# -------- Organization All User Field
 class User(AbstractBaseUser):
     email = models.EmailField(max_length=255, unique=True)
     full_name = models.CharField(max_length=255, blank=True, null=True)
-    #address = models.CharField(max_length=455)
     active = models.BooleanField(default=True) # Can Login
     staff = models.BooleanField(default=False) # staff user non Superuser
     admin = models.BooleanField(default=False) # Superuser
     timestamp = models.DateTimeField(auto_now_add=True)
-    # confirm = models.BooleanField(default=False)
-    # confiremed_date = models.DateTimeField(default=False)
 
     # Profile
-    first_address = models.CharField(max_length=255, blank=True)
-    second_address = models.CharField(max_length=255, blank=True)
-    phone = models.CharField(max_length=12)
-    update = models.DateTimeField(null=True, blank=True)
-    last_donation_date = models.DateField(unique=True, default=uuid.uuid1)
-
-    PROFESSION_CHOICES = (
-        ('Student', 'Student'),
-        ('Employer', 'Employer'),
-        ('Unemployed', 'Unemployed'),
-        ('Businessman', 'Businessman'),
-    )
-    profession = models.CharField(max_length=20, choices=PROFESSION_CHOICES)
-
-    BLOOD_CHOICES = (
-        ('A+', 'A+'),
-        ('A-', 'A-'),
-        ('B+', 'B+'),
-        ('B-', 'B-'),
-        ('AB+', 'AB+'),
-        ('AB-', 'AB-'),
-        ('O+', 'O+'),
-        ('O-', 'O-'),
-    )
-    blood = models.CharField(max_length=20, choices=BLOOD_CHOICES)
-
-    GENDER_CHOICES = (
-        ('Male', 'Male'),
-        ('Female', 'Female'),
-    )
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
-
-
-
-    # Personal Info
-    age = models.IntegerField(default=20)
+    org_name = models.CharField(max_length=200)
+    org_short_name = models.CharField(max_length=200, blank=True, null=True)
+    logo = models.ImageField(upload_to='org_logo/', blank=True)
+    address = models.CharField(max_length=260)
+    telephone = models.IntegerField(blank=True, null=True)
+    whatsapp = models.IntegerField(blank=True, null=True)
+    fax = models.CharField(max_length=50)
+    p_o_box = models.CharField(max_length=80)
+    permit_number = models.CharField(max_length=15, null=True)
+    permit_date = models.CharField(max_length=10, null=True)
+    board_members = models.TextField()
+    info = models.TextField()
+    org_types = models.ForeignKey(OrgType, on_delete=models.CASCADE, null=True)
+    goals = models.TextField()
+    projects = models.TextField()
+    # permit Issuer
+    permit = models.BooleanField(default=False)
+    state = models.ForeignKey(State, on_delete=models.CASCADE, null=True)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, null=True)
+    org_links = models.URLField(blank=True)
+    bank_name = models.ForeignKey(Bank, on_delete=models.CASCADE, blank=True, null=True)
+    bank_account_name = models.CharField(max_length=100, blank=True, null=True)
+    bank_account_no = models.CharField(max_length=100, unique=True, null=True, blank=True)
+    bank_account_short_info = models.TextField(blank=True, null=True)
+    position = models.PositiveSmallIntegerField(blank=True, null=True)
+    photo = models.ImageField(upload_to='user_photo/', blank=True)
+    # Created at, updated at by(user name), ip, mac, address
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    slug = models.SlugField()
 
     USERNAME_FIELD = 'email'  # Username
     # USERNAME_FILED and password are required by default
@@ -103,10 +151,17 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
+    class Meta:
+        ordering = ('org_name',)
+        index_together = (('id', 'slug'),)
 
+    # Auto create slug according to Organization name
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.org_name)
+        super(User, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.email
+        return self.org_name
 
     def  get_full_name(self):
         return self.email
@@ -133,6 +188,16 @@ class User(AbstractBaseUser):
         return self.active
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+
+def create_profile(sender, **kwargs):
+    if kwargs['created']:
+        user_profile = Profile.objects.create(user=kwargs['instance'])
+
+
+post_save.connect(create_profile, sender=User)
 
 
 

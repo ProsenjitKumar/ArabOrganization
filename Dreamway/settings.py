@@ -26,7 +26,7 @@ SECRET_KEY = 'sq5f%p&53+#8&iw(s@)@k1u$_m37th96$a9mv2tg$re-q!6_uu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['humanitywatch']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -125,4 +125,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'photo')
+
 django_heroku.settings(locals())
+
+# APPEND_SLASH=False

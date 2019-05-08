@@ -16,7 +16,7 @@ class UserAdminCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('full_name', 'email',)
+        fields = ('email',)
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -44,17 +44,13 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('full_name', 'email', 'password', 'active', 'admin')
+        fields = ('email', 'password', 'active', 'admin')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
-
-
-class GuestForm(forms.Form):
-    email = forms.EmailField()
 
 
 class LoginForm(forms.Form):
@@ -65,9 +61,6 @@ class LoginForm(forms.Form):
     #     if self.username and self.password:
     #         raise forms.ValidationError("Password or Email Incorrect.")
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
-
 
 class RegisterForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
@@ -77,11 +70,9 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('full_name', 'email', 'phone', 'profession', 'gender', 'blood', 'first_address', 'second_address',
-                  'last_donation_date', 'age')
-        widgets = {
-            'last_donation_date': DateInput()
-        }
+        fields = ('email', 'org_name', 'org_short_name', 'logo', 'photo', 'address', 'telephone', 'whatsapp', 'fax', 'p_o_box',
+                  'permit_number', 'permit_date', 'board_members', 'info', 'org_types', 'goals', 'projects',
+                  'state', 'city', 'org_links')
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -104,35 +95,19 @@ class RegisterForm(forms.ModelForm):
 class UserChangeForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('full_name', 'email', 'phone', 'profession', 'gender', 'blood', 'first_address', 'second_address')
+        fields = ('email', 'full_name', 'org_name', 'org_short_name', 'logo', 'address', 'telephone', 'whatsapp',
+                  'fax', 'p_o_box', 'permit_number', 'permit_date', 'board_members', 'info', 'org_types', 'goals',
+                  'projects', 'state', 'city', 'org_links', 'bank_name', 'bank_account_name', 'bank_account_no',
+                  'bank_account_short_info', 'position', 'photo')
 
 
-class LastDonationChangeForm(UserChangeForm):
-    this_year = timezone.now().year
+class BankInfoForm(UserChangeForm):
     class Meta:
         model = User
-        fields = ('last_donation_date',)
-
-        widgets = {
-            'last_donation_date': DateInput()
-        }
+        fields = ('bank_name', 'bank_account_name', 'bank_account_no',
+                  'bank_account_short_info', 'position', 'photo',)
 
 
-
-class UserForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ('full_name', 'update')
-
-
-class DonorForm(forms.ModelForm):
-
-    class Meta:
-        model = User
-        fields = ('full_name', 'email', 'phone', 'blood', 'first_address', 'last_donation_date')
-        widgets = {
-            'last_donation_date': DateInput()
-        }
 
 
 

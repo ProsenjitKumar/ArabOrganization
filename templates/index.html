@@ -5,12 +5,11 @@
     <head>
 
         {% block title %}
-
-            <link rel="icon" type="image/jpg" href="{% static 'assets/humanitywatch_image/Humanitywatch Logo -2.jpg' %}"/>
+            <link rel="icon" type="image/jpg" href="#"/>
         {% endblock %}
 
         <meta charset="utf-8">
-        <title>Humanity Watch</title>
+        <title>Organization</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Fonts -->
@@ -29,299 +28,157 @@
 
         <!-- Template main Css -->
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
-        
+
         <!-- Modernizr -->
         <script src="{% static 'assets/js/modernizr-2.6.2.min.js' %}"></script>
 
-
     </head>
-
     <body>
-
-
     <header class="main-header">
-        
-    
         <nav class="navbar navbar-static-top">
-
             <div class="navbar-top">
-
               <div class="container">
                   <div class="row">
-
                     <div class="col-sm-6 col-xs-12">
-
                         <ul class="list-unstyled list-inline header-contact">
-                            <li> <i class="fa fa-phone"></i> <a href="tel:">+880 1712 130040</a> </li>
-                             <li> <i class="fa fa-envelope"></i> <a href="mailto:contact@sadaka.org">hwforg@gmail.com</a> </li>
+                            <li> <i class="fa fa-phone"></i> <a href="tel:">+Contact...</a> </li>
+                             <li> <i class="fa fa-envelope"></i> <a href="mailto:contact@sadaka.org">...@gmail.com</a> </li>
                        </ul> <!-- /.header-contact  -->
-                      
                     </div>
-
+                       <!-- /. Social Site  -->
                     <div class="col-sm-6 col-xs-12 text-right">
-
                         <ul class="list-unstyled list-inline header-social">
-
                             <li> <a href="#"> <i class="fa fa-facebook"></i> </a> </li>
                             <li> <a href="#"> <i class="fa fa-twitter"></i>  </a> </li>
                             <li> <a href="#"> <i class="fa fa-google"></i>  </a> </li>
                             <li> <a href="#"> <i class="fa fa-youtube"></i>  </a> </li>
                             <li> <a href="#"> <i class="fa fa fa-pinterest-p"></i>  </a> </li>
                        </ul> <!-- /.header-social  -->
-                      
                     </div>
-
-
                   </div>
               </div>
-
             </div>
-
             <div class="navbar-main">
-              
               <div class="container">
-
                 <div class="navbar-header">
                   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-
                   </button>
-                  
-                  <a class="navbar-brand logo" href="{% url 'home' %}"><img src="{% static 'assets/humanitywatch_image/logo.png' %}" alt=""></a>
-
                 </div>
-
+                  <!-- /#Menu bar Home register Login-->
                 <div id="navbar" class="navbar-collapse collapse pull-right">
-
                   <ul class="nav navbar-nav">
+                      <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'register' %}">Register</a></li>
+                        <li><a href="{% url 'login' %}"><span>Login Now!</span></a></li>
 
-                      <li>
-                        <!-- The form --><br>
-                        <head>
-                            <meta name="viewport" content="width=device-width, initial-scale=1">
-                            <style>
-                            input[type=text] {
-                                width: 130px;
-                                box-sizing: border-box;
-                                border: 3px solid #1ccc10;
-                                border-radius: 4px;
-                                font-size: 15px;
-                                background-color: rgb(0, 44, 0);
-                                background-image: url('searchicon.png');
-                                background-position: 10px 10px;
-                                background-repeat: no-repeat;
-                                padding:-12px 27px;
-
-                                -webkit-transition: width 0.4s ease-in-out;
-                                transition: width 0.4s ease-in-out;
-                            }
-
-                            input[type=text]:focus {
-                                width: 100%;
-                            }
-                            </style>
-                        </head>
-
-                        <form method="post" action="/blood-donors-information-2/">
-                            {% csrf_token %}
-                          <input type="text" name="search" placeholder="Search with Name or Blood Type(a+,b-,o-) etc...">
-                        </form>
-                      </li>
-
-                    <li style="padding-left: 10px"><a class="is-active" href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'about' %}">About</a></li>
-                  <li class="has-child"><a href="#">Programs</a>
-                      <ul class="submenu">
-                         <li class="submenu-item"><a href="{% url 'mission_vision' %}">Mission & Vision</a></li>
-                          <li class="submenu-item"><a href="{% url 'photo_gallery' %}">Photo Gallery</a></li>
-                         <li class="submenu-item"><a href="{% url 'resources' %}">Resources</a></li>
-                         <li class="submenu-item"><a href="{% url 'organization' %}">Organization</a></li>
-                         <li class="submenu-item"><a href="#">Governance</a></li>
-
-                      </ul>
-
-                    </li>
-                  <li><a href="{% url 'available_donor' %}">All Donor List</a></li>
-
-                    <li class="has-child"><a href="#">Blood Group</a>
-                      <ul class="submenu">
-                         <li class="submenu-item"><a href="{% url 'a_positive' %}">A+ve</a></li>
-                         <li class="submenu-item"><a href="{% url 'a_negative' %}">A-ve</a></li>
-                         <li class="submenu-item"><a href="{% url 'b_positive' %}">B+ve</a></li>
-                         <li class="submenu-item"><a href="{% url 'b_negative' %}">B-ve</a></li>
-                          <li class="submenu-item"><a href="{% url 'o_positive' %}">O+ve</a></li>
-                          <li class="submenu-item"><a href="{% url 'o_negative' %}">O-ve</a></li>
-                          <li class="submenu-item"><a href="{% url 'ab_positive' %}">AB+ve</a></li>
-                          <li class="submenu-item"><a href="{% url 'ab_negative' %}">AB-ve</a></li>
-                      </ul>
-
-                    </li>
-                      <li><a href="{% url 'login' %}">Login</a></li>
-
-                      {% if request.user.is_authenticated %}
-                        <li><a href="{% url 'profile' %}">Profile</a></li>
+                       {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'profile' %}"><span>Profile!</span></a></li>
+                        <li><a href="{% url 'bank_info_add_update' %}">Bank Info</a> </li>
+                         <li><a href="{% url 'logout' %}">Logout</a> </li>
                       {% endif %}
-                    <li><a href="{% url 'contact' %}">Contact</a></li>
 
                   </ul>
-
                 </div> <!-- /#navbar -->
-
               </div> <!-- /.container -->
-              
             </div> <!-- /.navbar-main -->
-
-
         </nav>
-
     </header> <!-- /. main-header -->
 
-<!*********************************-->
+<!-- /#Search bar Style -->
+<style>
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+
+    <br>
+<!-- /#Search bar  -->
+<div style="text-align: center">
+    <form class="example" method="post" action="/available-organizer/">
+        {% csrf_token %}
+      <input type="text" name="search" placeholder="Search with Organization, Bank name ...">
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+</div>
+
+
+
+<!************* Home Page Dynamic Content ********************-->
+    <br>
+<div id="addEventForm">
+
+    {% for user in users %}
+
+        <div style="background-color: rgba(151,165,154,0.33); font-size: 16px; color: #19b212">
+            <p><label>Org Name:  </label><a href="{% url 'single_organization_detail' user.id %}"> {{ user.org_name }}</a></p>
+            <p><label>Email:  </label><a href="{% url 'single_organization_detail' user.id %}"> {{ user.email }}</a></p>
+            <p><label>Telephone:  </label><a href="{% url 'single_organization_detail' user.id %}"> {{ user.telephone }}</a></p>
+        </div>
+
+    {% endfor %}
+
+{% if users %}
+    <div>
+        <span>Total Organization: {{ users.count }}</span>
+    </div><br>
+{% endif %}
+
+  </div>
+
+
+
+<!************* Content ********************-->
 
     {% block content %}
 
     {% endblock %}
 
-    <!*********************************-->
+<!************* End Content ********************-->
 
-    <footer class="main-footer">
-
-        <div class="footer-top">
-            
+<footer class="main-footer">
+    <div class="footer-bottom">
+        <div class="container text-right">
+            Arab organization @ copyrights 2018 - by <a style="color: #4CAF50" href="http://www.facebook
+            .com/prosenjit1994/" target="_blank">Prosenjit Das</a>
         </div>
+    </div>
+</footer> <!-- main-footer -->
 
+    <!--  Footer End
+    ================================================== -->
 
-        <div class="footer-main">
-            <div class="container">
-                
-                <div class="row">
-                    <div class="col-md-4">
-
-                        <div class="footer-col">
-
-                            <h4 class="footer-title">About us <span class="title-under"></span></h4>
-
-                            <div class="footer-content">
-
-                                <p>
-                                    <strong>Humanitywatch</strong> is registered as a nonprofit making
-                                    organization under Society Act XXI under Joint Stock Companies and Firms of the
-                                    Government of Bangladesh vide registration number 119/2005, dated 13 February 2005.
-                                </p> 
-
-                                <p>
-                                    Humanitywatch is directly working in the southwest coastal region of Bangladesh
-                                    such as Khulna, Satkhira, Bagerhat, Jessore and Narail districts. The organization
-                                    also has a strong network with other partner organizations in all over the country
-                                    including Bagerhat, Barguna, Barisal, Bhola, Chittagong, Cox's Bazaar, Dhaka,
-                                    Gaibandha, Jessore, Narail, Noakhali, Patuakhali, Pirojpur, Satkhira, Sunamganj and
-                                    Sylhet district.
-                                </p>
-
-                            </div>
-                            
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-4">
-
-                        <div class="footer-col">
-
-                            <h4 class="footer-title">Mission<span class="title-under"></span></h4>
-
-                            <div class="footer-content">
-                                <ul class="tweets list-unstyled">
-                                    <li class="tweet"> 
-
-
-                                        To organize campaign, advocacy and research from the perspective of humanity
-                                        for ensuring rights of the oppressed,
-                                        economic justice, justice to the environment and alternative development
-                                        towards a right based developed country.
-
-                                    </li>
-
-                                    <li class="tweet"> 
-
-                                        Entrusted to collect, process and distribute this priceless life source,
-                                        we carry out our mission through the selfless giving of volunteer blood donors;
-                                        our dedicated and caring staff and volunteers; and our partnership with medical
-                                        professionals and regulators to ensure the safety of the blood supply and to
-                                        advance the body of knowledge in blood management.
-
-                                    </li>
-
-                                    <li class="tweet"> 
-
-                                        The Mission of our NJ-based blood donation center is to save lives by providing
-                                        safe, high-quality blood products and services to patients in need.
-
-                                    </li>
-
-                                </ul>
-                            </div>
-                            
-                        </div>
-
-                    </div>
-
-
-                    <div class="col-md-4">
-
-                        <div class="footer-col">
-
-                            <h4 class="footer-title">Contact us <span class="title-under"></span></h4>
-
-                            <div class="footer-content">
-
-                                <div class="footer-form">
-                                    
-                                    <div class="footer-form" >
-
-                                            <p><h2>Contract Address</h2><br>
-                                            77/1 Boyra Main Road. Khulna, Bangladesh<br>
-                                            Phone: +880 1712 130040<br>
-                                            E-mail: hwforg@gmail.com, info@humanitybd.org<br>
-                                            Website: www.humanitybd.org<br>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            
-                        </div>
-
-                    </div>
-                    <div class="clearfix"></div>
-
-
-
-                </div>
-                
-                
-            </div>
-
-            
-        </div>
-
-        <div class="footer-bottom">
-
-            <div class="container text-right">
-                Humanity Watch @ copyrights 2018 - by <a style="color: #4CAF50" href="http://www.facebook
-                .com/prosenjit1994/"
-                                                 target="_blank">Prosenjit Das</a>
-            </div>
-        </div>
-        
-    </footer> <!-- main-footer -->
-
-
-    <!--  Scripts
+    <!--  Scripts Link Start
     ================================================== -->
 
     <!-- jQuery -->

@@ -4,16 +4,25 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
-from .forms import RegisterForm, LoginForm, LastDonationChangeForm, DonorForm
+from .forms import RegisterForm, LoginForm, BankInfoForm
 from django.db.models import Q
 from django.core.mail import send_mail, BadHeaderError
 
 
-
+# Home View
 def home(request):
-    return render(request, 'accounts/home.html')
+    users = User.objects.filter(permit=True)
+    context = {"users": users}
+    return render(request, 'index.html', context)
 
 
+def single_organization_detail(request, user_id):
+    user = User.objects.get(pk=user_id)
+    context = {"user": user}
+    return render(request, 'organizer/single-organization-detail.html', context)
+
+
+# Login Page
 @csrf_protect
 def login_page(request):
     form = LoginForm(request.POST or None)
@@ -31,8 +40,8 @@ def login_page(request):
             # user.is_active = False
             if user.is_active:
                 login(request, user)
-                return render(request, 'accounts/profile.html')
-                #return HttpResponseRedirect("/profile/")
+                # return render(request, 'profile/index.html')
+                return HttpResponseRedirect("/profile/") #or you may use
             else:
                 return HttpResponse("You have to Wait for admin approval.")
         else:
@@ -42,6 +51,16 @@ def login_page(request):
         return render(request, 'accounts/login.html', context)
 
 
+@login_required
+def user_logout(request):
+    # Since we know the user is logged in, we can now just log them out.
+    logout(request)
+
+    # Take the user back to the homepage.
+    return HttpResponseRedirect('/')
+
+
+# Register Page
 User = get_user_model()
 @csrf_protect
 def register_page(request):
@@ -55,59 +74,32 @@ def register_page(request):
     return render(request, 'accounts/register.html', context)
 
 
-@csrf_protect
-def donor_page(request):
-    form = DonorForm(request.POST or None)
-    context = {
-        "form": form
-    }
-    if form.is_valid():
-        form.save()
-        return render(request, 'donor_form_success.html')
-    return render(request, 'donor_form.html', context)
-
-
+# User Profile Page
 @login_required
 def profile(request):
-    args = {"user": request.user }
+    args = {"user": request.user}
 
-    return render(request, 'accounts/profile.html', args)
+    return render(request, 'profile/profile.html', args)
 
 
+# Bank Info Add and update
 @login_required
-def user_logout(request):
-    # Since we know the user is logged in, we can now just log them out.
-    logout(request)
+def bank_info_add_update(request):
+    if request.method == 'POST':
+        form = BankInfoForm(request.POST, instance=request.user)
 
-    # Take the user back to the homepage.
-    return HttpResponseRedirect('/')
-
-
-def contact_us(request):
-    return render(request, 'contact.html')
-
-
-def about(request):
-    return render(request, 'about.html')
-
-
-def mission_vision(request):
-    return render(request, 'mission_vision.html')
+        if form.is_valid():
+            form.save()
+            return render(request, 'profile/success-bank-info-add-update.html')
+    else:
+        form = BankInfoForm(instance=request.user)
+        context = {
+            "form": form,
+        }
+        return render(request, 'profile/bank-info-add-update.html', context)
 
 
-def organization(request):
-    return render(request, 'organization.html')
-
-
-def resources(request):
-    return render(request, 'resources.html')
-
-
-def photo_gallery(request):
-    return render(request, 'photo_gallery.html')
-
-
-def available_donor(request):
+def available_organizer(request):
     if request.method == 'POST':
         search = request.POST['search']
 
@@ -115,11 +107,11 @@ def available_donor(request):
             match = User.objects.filter(
                 Q(full_name__startswith=search) |
                 Q(email__icontains=search) |
-                Q(blood__startswith=search) |
-                Q(first_address__icontains=search)
+                Q(bank_account_name__startswith=search) |
+                Q(position__icontains=search)
             )
             if match:
-                return render(request, 'available_donor.html', {"match": match})
+                return render(request, 'organizer/available-organization.html', {"match": match})
             else:
                 messages.error(request, "No result found")
         else:
@@ -128,114 +120,9 @@ def available_donor(request):
     args = {
         "users": User.objects.all(),
     }
-    return render(request, 'all_donor_list.html', args)
+    return render(request, 'index.html', args)
 
 
-
-def last_donation_date(request):
-    if request.method == 'POST':
-        form = LastDonationChangeForm(request.POST, instance=request.user)
-
-        if form.is_valid():
-            form.save()
-            return render(request, 'accounts/blood_donation_update_siccess.html')
-    else:
-        form = LastDonationChangeForm(instance=request.user)
-        context = {
-            "form": form,
-        }
-        return render(request, 'accounts/last_donation_date.html', context)
-
-
-
-#******************************************** Blood Group List Mehod **********************
-
-def a_positive(request):
-
-    match = User.objects.filter(blood__startswith='a+')
-    if match:
-        return render(request, 'blood_type/a_positive.html', {"match": match})
-    else:
-        messages.error(request, "No result found")
-
-    return render(request, 'blood_type/not_found.html')
-
-
-def a_negative(request):
-
-    match = User.objects.filter(blood__startswith='a-')
-    if match:
-        return render(request, 'blood_type/a_negative.html', {"match": match})
-    else:
-        messages.error(request, "No result found")
-
-    return render(request, 'blood_type/not_found.html')
-
-
-def b_positive(request):
-
-    match = User.objects.filter(blood__startswith='b+')
-    if match:
-        return render(request, 'blood_type/b_positive.html', {"match": match})
-    else:
-        messages.error(request, "No result found")
-
-    return render(request, 'blood_type/not_found.html')
-
-
-def b_negative(request):
-
-    match = User.objects.filter(blood__startswith='b-')
-    if match:
-        return render(request, 'blood_type/b_negative.html', {"match": match})
-    else:
-        messages.error(request, "No result found")
-
-    return render(request, 'blood_type/not_found.html')
-
-
-def ab_positive(request):
-
-    match = User.objects.filter(blood__startswith='ab+')
-    if match:
-        return render(request, 'blood_type/ab_positive.html', {"match": match})
-    else:
-        messages.error(request, "No result found")
-
-    return render(request, 'blood_type/not_found.html')
-
-
-def ab_negative(request):
-
-    match = User.objects.filter(blood__startswith='ab-')
-    if match:
-        return render(request, 'blood_type/ab_negative.html', {"match": match})
-    else:
-        messages.error(request, "No result found")
-
-    return render(request, 'blood_type/not_found.html')
-
-
-def o_positive(request):
-
-    match = User.objects.filter(blood__startswith='o+')
-    if match:
-        return render(request, 'blood_type/o+positive.html', {"match": match})
-    else:
-        messages.error(request, "No result found")
-
-    return render(request, 'blood_type/not_found.html')
-
-
-def o_negative(request):
-
-    match = User.objects.filter(blood__startswith='o-')
-    if match:
-        return render(request, 'blood_type/o_negative.html', {"match": match})
-    else:
-        messages.error(request, "No result found")
-
-    return render(request, 'blood_type/not_found.html')
 
 
 

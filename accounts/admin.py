@@ -1,62 +1,65 @@
 from django.contrib import admin
-from django.contrib.auth import get_user_model
-#from .models import Profile
-from .forms import UserAdminCreationForm, UserAdminChangeForm, LastDonationChangeForm
-from django.contrib.auth.models import Group
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from .models import Bank, State, City, OrgType,\
+    User
+# Organization field show in admin panel
+class OrganizationAdmin(admin.ModelAdmin):
+    list_display = ['org_name', 'org_short_name', 'telephone',
+                    'permit', 'active', 'state', 'city', 'bank_name',
+                    'bank_account_name', 'position']
+    list_per_page = 20
+    search_fields = ['org_name', 'org_short_name', 'telephone',
+                    'state', 'city', 'bank_name',
+                    'bank_account_name', 'position']
+    prepopulated_fields = {'slug': ('org_name',)}
 
 
-User = get_user_model()
+admin.site.register(User, OrganizationAdmin)
 
 
-class UserAdmin(BaseUserAdmin):
-    # The forms to add and change user instances
-    form = UserAdminChangeForm
-    add_form = UserAdminCreationForm
-    add_form_1 = LastDonationChangeForm
-
-    # The fields to be used in displaying the User model.
-    # These override the definitions on the base UserAdmin
-    # that reference specific fields on auth.User.
-    list_display = ('email', 'full_name', 'admin')
-    history_list_display = ["status"]
-    list_filter = ('admin', 'staff', 'active')
-    list_per_page = 100
-    fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ['full_name',
-                                      'first_address',
-                                      'second_address',
-                                      'profession',
-                                      'phone',
-                                      'age',
-                                      'blood',
-                                      'gender',
-                                      'update',
-                                      'last_donation_date',
-                                      ]}),
-        ('Permissions', {'fields': ('admin', 'staff', 'active',)}),
-    )
-    # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
-    # overrides get_fieldsets to use this attribute when creating a user.
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2')}
-        ),
-    )
-    search_fields = ('email',)
-    ordering = ('email',)
-    filter_horizontal = ()
+# Organization field show in admin panel
+class BankAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    list_per_page = 20
+    search_fields = ['name']
+    prepopulated_fields = {'slug': ('name',)}
 
 
-admin.site.register(User, UserAdmin)
-# Remove Group Model from admin. We're not using it.
+admin.site.register(Bank, BankAdmin)
 
 
+# Organization field show in admin panel
+class StateAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    list_per_page = 20
+    search_fields = ['name']
+    prepopulated_fields = {'slug': ('name',)}
 
 
-admin.site.unregister(Group)
+admin.site.register(State, StateAdmin)
+
+
+# Organization field show in admin panel
+class CityAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    list_per_page = 20
+    search_fields = ['name']
+    prepopulated_fields = {'slug': ('name',)}
+
+
+admin.site.register(City, CityAdmin)
+
+
+# Organization field show in admin panel
+class OrgTypeAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    list_per_page = 20
+    search_fields = ['name']
+    prepopulated_fields = {'slug': ('name',)}
+
+
+admin.site.register(OrgType, OrgTypeAdmin)
+
+
 
 
 

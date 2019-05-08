@@ -1,5 +1,5 @@
 """
-WSGI config for Dreamway project.
+WSGI config for AliOrg project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

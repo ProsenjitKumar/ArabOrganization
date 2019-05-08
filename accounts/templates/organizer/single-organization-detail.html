@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}
+    <title>{{ user.org_short_name }}</title>
+{% endblock %}
+
+
+{% block content %}
+
+{{ user.org_name }}
+    {{ user.full_name }}
+    {{ user.email }}
+
+
+{% endblock %}
