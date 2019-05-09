@@ -126,10 +126,10 @@ form.example::after {
 
     <br>
 <!-- /#Search bar  -->
-<div style="text-align: center">
+<div style="text-align: center;">
     <form class="example" method="post" action="/available-organizer/">
         {% csrf_token %}
-      <input type="text" name="search" placeholder="Search with Organization, Bank name ...">
+      <input style="background: linear-gradient(white, #d1d9ff)" type="text" name="search" placeholder="Search with Organization, Bank name ...">
         <button type="submit"><i class="fa fa-search"></i></button>
     </form>
 </div>
@@ -138,11 +138,13 @@ form.example::after {
 
 <!************* Home Page Dynamic Content ********************-->
     <br>
-<div id="addEventForm">
+<div id="addEventForm" style="padding-left: 2%; padding-right: 2%">
 
     {% for user in users %}
 
-        <div style="background-color: rgba(151,165,154,0.33); font-size: 16px; color: #19b212">
+        <div style="background: linear-gradient(rgba(151,165,154,0.33), #d1d9ff);font: bolder;
+        font-size: 16px;color: #19b212;padding-left: 2%;
+         padding-right: 2%;">
             <p><label>Org Name:  </label><a href="{{ user.get_absolute_url }}"> {{ user.org_name }}</a></p>
             <p><label>Email:  </label><a href="{{ user.get_absolute_url }}"> {{ user.email }}</a></p>
             <p><label>Telephone:  </label><a href="{{ user.get_absolute_url }}"> {{ user.telephone }}</a></p>

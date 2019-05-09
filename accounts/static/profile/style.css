@@ -165,7 +165,7 @@
     display: block;
     margin: 8px 14px 0 14px;
     overflow: hidden;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 16px;
     color: #737373;
     text-overflow: ellipsis;
@@ -217,7 +217,7 @@
 }
 
 .card.hovercard .info {
-    padding: 4px 8px 10px;
+    padding: 6px 10px 12px;
 }
 
 .card.hovercard .info .title {
@@ -230,9 +230,9 @@
 
 .card.hovercard .info .desc {
     overflow: hidden;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 20px;
-    color: #737373;
+    color: #236820;
     text-overflow: ellipsis;
 }
 

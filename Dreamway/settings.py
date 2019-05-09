@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
+    # Builtin Third Party App
+    'crispy_forms',
 ]
 
 AUTH_USER_MODEL = 'accounts.User' # changes the built in user to ours

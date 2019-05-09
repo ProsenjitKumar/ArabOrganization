@@ -3,7 +3,6 @@
 
 {% block title %}<title>Profile</title>{% endblock %}
 
-
 {% block content %}
 
 <link href="{% static 'profile/style.css' %}" rel="stylesheet" type="text/css" media="all" />
@@ -30,9 +29,25 @@
                     <div class="title">
                         <a target="_blank" href="#">Org name: {{ user.org_name }}</a>
                     </div>
-                    <div class="desc">{{ user.telephone }}</div>
-                    <div class="desc">{{ user.postion }}</div>
-                    <div class="desc">{{ user.address }}</div>
+                    <div class="desc"><span>Telephone: </span>{{ user.telephone }}</div>
+                    <div class="desc"><span>Position: </span>{{ user.postion }}</div>
+                    <div class="desc"><span>Email: </span>{{ user.email }}</div>
+                    <div class="desc"><span>Fax: </span>{{ user.fax }}</div>
+                    <div class="desc"><span>Bank name: </span>{{ user.bank_name }}</div>
+                    <div class="desc"><span>Bank Account Name: </span>{{ user.bank_account_name }}</div>
+                    <div class="desc"><span>Bank Account Number: </span>{{ user.bank_account_number }}</div>
+                    <div class="desc"><span>Permit Number: </span>{{ user.permit_number }}</div>
+                    <div class="desc"><span>Org Link: </span>{{ user.org_links }}</div>
+                    <div class="desc"><span>Address: </span>{{ user.address }}</div>
+                    <div class="desc"><span>P.O Box: </span>{{ user.p_o_box }}</div>
+                    <div class="desc"><span>Whatsapp: </span>{{ user.whatsapp }}</div>
+                    <div class="desc"><span>Org Type: </span>{{ user.org_types }}</div>
+                    <div class="desc"><span>Goals: </span>{{ user.goals }}</div>
+                    <div class="desc"><span>Board Members: </span>{{ user.board_members }}</div>
+                    <div class="desc"><span>State: </span>{{ user.state }}</div>
+                    <div class="desc"><span>City: </span>{{ user.city }}</div>
+                    <div class="desc"><span>Projects: </span>{{ user.projects }}</div>
+                    <div class="desc"><span>Info: </span>{{ user.info }}</div>
                 </div>
                 <div class="bottom">
                     <a class="btn btn-primary btn-twitter btn-sm" href="#">

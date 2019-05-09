@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 from .forms import RegisterForm, LoginForm, BankInfoForm
 from django.db.models import Q
-from django.core.mail import send_mail, BadHeaderError
+from django.views.generic import FormView, TemplateView
 
 
 # Home View
@@ -100,6 +100,33 @@ def bank_info_add_update(request):
         return render(request, 'profile/bank-info-add-update.html', context)
 
 
+# -----------------------------------------
+
+
+# class BankInfoView(FormView):
+#     template_name = 'profile/bank-info-add-update.html'
+#     form_class = BankInfoForm
+#     success_url = '/success/'
+#     users = get_user_model()
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(BankInfoView, self).get_context_data(**kwargs)
+#         #context["testing_out"] = "this is a new context var"
+#         return context
+#
+#     def form_valid(self, form):
+#         # This method is called when valid form data has been POSTed.
+#         # It should return an HttpResponse.
+#         form.save(self.request.user)
+#         print("Form Is Valid")
+#         return super(BankInfoView, self).form_valid(form)
+#
+#
+# class Success(TemplateView):
+#     template_name = "profile/success-bank-info-add-update.html"
+
+
+# ***************************
 def available_organizer(request):
     if request.method == 'POST':
         search = request.POST['search']

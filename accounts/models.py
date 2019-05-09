@@ -140,7 +140,7 @@ class User(AbstractBaseUser):
     bank_account_no = models.CharField(max_length=100, unique=True, null=True, blank=True)
     bank_account_short_info = models.TextField(blank=True, null=True)
     position = models.PositiveSmallIntegerField(blank=True, null=True)
-    photo = models.ImageField(upload_to='user_photo/', blank=True)
+    photo = models.ImageField(upload_to='user_photo/', blank=True, null=True)
     # Created at, updated at by(user name), ip, mac, address
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

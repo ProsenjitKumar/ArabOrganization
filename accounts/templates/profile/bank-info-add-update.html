@@ -1,44 +1,47 @@
 {% extends 'index.html' %}
 {% load static %}
-{% block title %}<title>Signup Success</title>{% endblock %}
+{% load crispy_forms_tags %}
+{% block title %}<title>Bank Info</title>{% endblock %}
 
 {% block content %}
 
-    <div style="margin:0 auto;width:85%;text-align:left" class="agileits-top">
-    <form id="user_form" method="post" action="" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-        <div class="wthree-text">
-            <div class="clear"> </div>
-        </div><br>
-        <head>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-                <style>
-                .button {
-                padding: 7px 20px;
-                font-size: 24px;
-                text-align: center;
-                cursor: pointer;
-                outline: none;
-                color: #fff;
-                background-color: #4CAF50;
-                border: none;
-                border-radius: 10px;
-                box-shadow: 0 9px #999;
-                }
+<br><br>
 
-                .button:hover {background-color: #3e8e41}
+			<div style="margin:0 auto;width:85%;text-align:left" class="agileits-top">
+				<form id="user_form" method="post" action="/bank-info-add-update/" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+					<div class="wthree-text">
+						<div class="clear"> </div>
+					</div><br>
+                    <head>
+                        <meta name="viewport" content="width=device-width, initial-scale=1">
+                            <style>
+                            .button {
+                            padding: 7px 20px;
+                            font-size: 24px;
+                            text-align: center;
+                            cursor: pointer;
+                            outline: none;
+                            color: #fff;
+                            background-color: #4CAF50;
+                            border: none;
+                            border-radius: 10px;
+                            box-shadow: 0 9px #999;
+                            }
+                            .button:hover {background-color: #3e8e41}
+                            .button:active {
+                            background-color: #3e8e41;
+                            box-shadow: 0 3px #666;
+                            transform: translateY(4px);
+                            }
+                            </style>
 
-                .button:active {
-                background-color: #3e8e41;
-                box-shadow: 0 3px #666;
-                transform: translateY(4px);
-                }
-                </style>
-
-        </head>
-        <button class="button">Save</button>
-    </form><br>
+                    </head>
+                    <button class="button">Submit</button>
+				</form><br>
+			</div>
+    <br>
 
 {% endblock %}
 
