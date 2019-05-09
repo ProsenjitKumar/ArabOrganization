@@ -10,5 +10,5 @@ urlpatterns = [
     re_path('bank-info-add-update/', views.bank_info_add_update, name='bank_info_add_update'),
     re_path('logout/', views.user_logout, name='logout'),
     re_path('available-organizer/', views.available_organizer, name='available_organizer'),
-    re_path('organization-id=/(?P<user_id>[0-9]+)/$', views.single_organization_detail, name='single_organization_detail'),
+    re_path('organization/(?P<id>[0-9]+)-(?P<slug>[-\w]+)/$', views.single_organization_detail, name='single_organization_detail'),
 ]

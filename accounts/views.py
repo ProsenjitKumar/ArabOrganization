@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 from .forms import RegisterForm, LoginForm, BankInfoForm
 from django.db.models import Q
@@ -16,8 +16,9 @@ def home(request):
     return render(request, 'index.html', context)
 
 
-def single_organization_detail(request, user_id):
-    user = User.objects.get(pk=user_id)
+def single_organization_detail(request, id, slug):
+    # user = User.objects.get(pk=user_id)
+    user = get_object_or_404(User, id=id, slug=slug)
     context = {"user": user}
     return render(request, 'organizer/single-organization-detail.html', context)
 
@@ -118,7 +119,7 @@ def available_organizer(request):
             return HttpResponseRedirect('/')
 
     args = {
-        "users": User.objects.all(),
+        "users": User.objects.filter(permit=True),
     }
     return render(request, 'index.html', args)
 

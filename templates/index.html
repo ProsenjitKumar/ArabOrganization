@@ -72,13 +72,15 @@
                 <div id="navbar" class="navbar-collapse collapse pull-right">
                   <ul class="nav navbar-nav">
                       <li><a href="{% url 'home' %}">Home</a></li>
-                        <li><a href="{% url 'register' %}">Register</a></li>
-                        <li><a href="{% url 'login' %}"><span>Login Now!</span></a></li>
+
 
                        {% if request.user.is_authenticated %}
                         <li><a href="{% url 'profile' %}"><span>Profile!</span></a></li>
                         <li><a href="{% url 'bank_info_add_update' %}">Bank Info</a> </li>
                          <li><a href="{% url 'logout' %}">Logout</a> </li>
+                           {% else %}
+                           <li><a href="{% url 'register' %}">Register</a></li>
+                            <li><a href="{% url 'login' %}"><span>Login Now!</span></a></li>
                       {% endif %}
 
                   </ul>
@@ -141,9 +143,9 @@ form.example::after {
     {% for user in users %}
 
         <div style="background-color: rgba(151,165,154,0.33); font-size: 16px; color: #19b212">
-            <p><label>Org Name:  </label><a href="{% url 'single_organization_detail' user.id %}"> {{ user.org_name }}</a></p>
-            <p><label>Email:  </label><a href="{% url 'single_organization_detail' user.id %}"> {{ user.email }}</a></p>
-            <p><label>Telephone:  </label><a href="{% url 'single_organization_detail' user.id %}"> {{ user.telephone }}</a></p>
+            <p><label>Org Name:  </label><a href="{{ user.get_absolute_url }}"> {{ user.org_name }}</a></p>
+            <p><label>Email:  </label><a href="{{ user.get_absolute_url }}"> {{ user.email }}</a></p>
+            <p><label>Telephone:  </label><a href="{{ user.get_absolute_url }}"> {{ user.telephone }}</a></p>
         </div>
 
     {% endfor %}

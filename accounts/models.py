@@ -5,6 +5,7 @@ from django.contrib.auth.models import (
 )
 from django.db.models.signals import post_save
 from django.utils.text import slugify
+from django.urls import reverse
 
 
 # ------------------------------------------------------------------------
@@ -162,6 +163,9 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.org_name
+
+    def get_absolute_url(self):
+        return reverse('single_organization_detail', args=[self.id, self.slug])
 
     def  get_full_name(self):
         return self.email
