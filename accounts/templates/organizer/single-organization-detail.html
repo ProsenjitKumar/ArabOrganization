@@ -3,6 +3,9 @@
 
 {% block title %}
     <title>{{ user.org_short_name }}</title>
+    {% if user.logo %}
+        <link rel="icon" type="image/jpg" href="{{ MEDIA_URL }} {{ user.logo.url }}"/>
+    {% endif %}
 {% endblock %}
 
 
@@ -145,8 +148,6 @@
             <i class="fa fa-behance"></i>
         </a>
     </div><br><br>
-
-
 
 
 {% endblock %}

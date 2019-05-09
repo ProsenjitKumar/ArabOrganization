@@ -4,8 +4,9 @@ from .models import Bank, State, City, OrgType,\
 # Organization field show in admin panel
 class OrganizationAdmin(admin.ModelAdmin):
     list_display = ['org_name', 'org_short_name', 'telephone',
-                    'permit', 'active', 'state', 'city', 'bank_name',
+                    'permit', 'active', 'slug', 'state', 'city', 'bank_name',
                     'bank_account_name', 'position']
+    exclude = ('password', 'last_login', 'staff', 'admin', 'full_name',)
     list_per_page = 20
     search_fields = ['org_name', 'org_short_name', 'telephone',
                     'state', 'city', 'bank_name',

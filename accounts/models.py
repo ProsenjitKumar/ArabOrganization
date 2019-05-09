@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 import uuid
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager
 )
 from django.db.models.signals import post_save
-from django.utils.text import slugify
+from slugify import slugify, slugify_unicode
 from django.urls import reverse
 
 
@@ -144,7 +145,7 @@ class User(AbstractBaseUser):
     # Created at, updated at by(user name), ip, mac, address
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    slug = models.SlugField()
+    slug = models.SlugField(allow_unicode=True)
 
     USERNAME_FIELD = 'email'  # Username
     # USERNAME_FILED and password are required by default
@@ -158,7 +159,7 @@ class User(AbstractBaseUser):
 
     # Auto create slug according to Organization name
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.org_name)
+        self.slug = slugify_unicode(self.org_name)
         super(User, self).save(*args, **kwargs)
 
     def __str__(self):
