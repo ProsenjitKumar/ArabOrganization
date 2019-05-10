@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}
+    <title>All Bank Account</title>
+    <link rel="icon" type="image/jpg" href="#"/>
+{% endblock %}
+
+
+{% block content %}
+
+
+        <div style="font: bolder;
+        font-size: 16px;color: #19b212;padding-left: 2%;width: 50%;
+         padding-right: 2%;">
+            <label>{{ bank.bank_name }}</label>
+            <p><span>Account Number: </span>{{ bank.bank_account_no }}</p>
+            <p><span>Account Name: </span>{{ bank.bank_account_name }}</p>
+            <p><span>The Bank Account is for: </span>{{ bank.bank_account_short_info }}</p>
+            <p><span>Position: </span>{{ bank.position }}</p>
+            {% if bank.photo %}
+                <label><img style="width: 250px;height: 350px" src="{{ MEDIA_URL }} {{ bank.photo.url }}"></label>
+            {% endif %}
+        </div><br>
+
+
+{% endblock %}

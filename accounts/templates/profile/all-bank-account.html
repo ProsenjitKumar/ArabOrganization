@@ -1,0 +1,52 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}
+    <title>All Bank Account</title>
+    <link rel="icon" type="image/jpg" href="#"/>
+{% endblock %}
+
+
+{% block content %}
+
+
+     <p style="text-align: center;
+        margin-left: 20px;
+        font-size: 26px;
+        color: #383ea4;%">List Of All bank Accounts For Org</p><br>
+
+     <div class="container">
+
+         {% for bank in banks %}
+                <div class="col-sm-8 lol">
+                    <!-- CONTENT HERE -->
+
+                    <div style="background: linear-gradient(rgba(151,165,154,0.33), #d1d9ff);font: bolder;
+                    font-size: 16px;color: #19b212;padding-left: 2%;
+                     padding-right: 2%;border: 10px solid green;">
+                        <label><a href="{{ bank.get_absolute_url }}">{{ bank.bank_name }}</a></label>
+                        <p><span><a href="{{ bank.get_absolute_url }}">Account Number: </a> </span>{{ bank.bank_account_no }}</p>
+                        <p><span><a href="{{ bank.get_absolute_url }}">Account Name:</a> </span>{{ bank.bank_account_name }}</p>
+                        <p><span><a href="{{ bank.get_absolute_url }}">The Bank Account is for:</a> </span>{{ bank.bank_account_short_info }}</p>
+                    </div>
+
+                {% if bank.photo %}
+                    <label>Org Image: <img style="width: 150px;height: 250px;align-items: center" src="{{ MEDIA_URL }} {{ bank.photo.url }}"></label>
+                {% endif %}
+
+                </div>
+
+                <div class="col-sm-4">
+                    <!-- SIDEBAR CONTENT HERE -->
+                    <p><span><a href="{{ bank.get_absolute_url }}">Position:</a> </span>{{ bank.position }}</p>
+                    <label><img style="width: 50px;height: 50px" src="{{ MEDIA_URL }} {{ bank.logo.url }}"></label>
+
+                </div>
+         {% endfor %}
+
+     </div>
+
+{% endblock %}
+
+
+

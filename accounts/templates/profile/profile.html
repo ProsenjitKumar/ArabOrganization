@@ -5,72 +5,81 @@
 
 {% block content %}
 
-<link href="{% static 'profile/style.css' %}" rel="stylesheet" type="text/css" media="all" />
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+{% if user.logo %}
+<a href="test.html">
+	 <img src="{{ MEDIA_URL }} {{ user.logo.url }}" alt="CSGO Howl" style="float:right;width: 50px;height: 50px;align-items: center;margin-right: 2%">
+	 </a>
+{% endif %}
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<div class="container">
-	<div class="row">
-		<div class="col-lg-3 col-sm-6">
 
-            <div class="card hovercard">
-                <div class="cardheader">
-
-                </div>
-                {% if user.photo %}
-                    <div class="avatar">
-                        <img alt="" src="{{ MEDIA_URL }} {{ user.photo.url }}">
-                    </div>
-                {% endif %}
-                <div class="info">
-                    <div class="title">
-                        <a target="_blank" href="#">Org name: {{ user.org_name }}</a>
-                    </div>
-                    <div class="desc"><span>Telephone: </span>{{ user.telephone }}</div>
-                    <div class="desc"><span>Position: </span>{{ user.postion }}</div>
-                    <div class="desc"><span>Email: </span>{{ user.email }}</div>
-                    <div class="desc"><span>Fax: </span>{{ user.fax }}</div>
-                    <div class="desc"><span>Bank name: </span>{{ user.bank_name }}</div>
-                    <div class="desc"><span>Bank Account Name: </span>{{ user.bank_account_name }}</div>
-                    <div class="desc"><span>Bank Account Number: </span>{{ user.bank_account_number }}</div>
-                    <div class="desc"><span>Permit Number: </span>{{ user.permit_number }}</div>
-                    <div class="desc"><span>Org Link: </span>{{ user.org_links }}</div>
-                    <div class="desc"><span>Address: </span>{{ user.address }}</div>
-                    <div class="desc"><span>P.O Box: </span>{{ user.p_o_box }}</div>
-                    <div class="desc"><span>Whatsapp: </span>{{ user.whatsapp }}</div>
-                    <div class="desc"><span>Org Type: </span>{{ user.org_types }}</div>
-                    <div class="desc"><span>Goals: </span>{{ user.goals }}</div>
-                    <div class="desc"><span>Board Members: </span>{{ user.board_members }}</div>
-                    <div class="desc"><span>State: </span>{{ user.state }}</div>
-                    <div class="desc"><span>City: </span>{{ user.city }}</div>
-                    <div class="desc"><span>Projects: </span>{{ user.projects }}</div>
-                    <div class="desc"><span>Info: </span>{{ user.info }}</div>
-                </div>
-                <div class="bottom">
-                    <a class="btn btn-primary btn-twitter btn-sm" href="#">
-                        <i class="fa fa-twitter"></i>
-                    </a>
-                    <a class="btn btn-danger btn-sm" rel="publisher"
-                       href="#">
-                        <i class="fa fa-google-plus"></i>
-                    </a>
-                    <a class="btn btn-primary btn-sm" rel="publisher"
-                       href="#">
-                        <i class="fa fa-facebook"></i>
-                    </a>
-                    <a class="btn btn-warning btn-sm" rel="publisher" href="#">
-                        <i class="fa fa-behance"></i>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-
-	</div>
+<div class="info">
+    <a href="#">Org name: {{ user.org_name }}</a>
+    <p><span>Telephone: </span>{{ user.telephone }}</p>
+    <p><span>Position: </span>{{ user.postion }}</p>
+    <p><span>Email: </span>{{ user.email }}</p>
+    <p><span>Fax: </span>{{ user.fax }}</p>
+    <p><span>Permit Number: </span>{{ user.permit_number }}</p>
+    <p><span>Address: </span>{{ user.address }}</p>
+    <p><span>P.O Box: </span>{{ user.p_o_box }}</p>
+    <p><span>Whatsapp: </span>{{ user.whatsapp }}</p>
+    <p><span>Org Type: </span>{{ user.org_types }}</p>
+    <p><span>Goals: </span>{{ user.goals }}</p>
+    <p><span>Board Members: </span>{{ user.board_members }}</p>
+    <p><span>State: </span>{{ user.state }}</p>
+    <p><span>City: </span>{{ user.city }}</p>
+    <p><span>Projects: </span>{{ user.projects }}</p>
+    <p><span>Info: </span>{{ user.info }}</p>
 </div>
+
+    <style>
+    .info a{
+        text-align: center;
+        margin-left: 20px;
+        font-size: 16px;
+        color: #4fc7a4;
+    }
+    .info p{
+        margin-left: 20px;
+    }
+
+    .social-icons {
+          text-align: center;
+          }
+        .social-icons li {
+          display:inline-block;
+          list-style-type:none;
+          -webkit-user-select:none;
+          -moz-user-select:none;
+          }
+        .social-icons li a {
+          border-bottom: none;
+          }
+        .social-icons li img {
+          width:50px;
+          height:50px;
+          margin-right: 20px;
+        }
+    </style>
+
+     <p style="margin-left: 20px;"><span>Org Link </span>{{ user.org_links }}</p>
+    <ul class="social-icons">
+        {% if user.facebook %}
+            <li><a href="{{ user.facebook }}"><img src='{% static 'image/fb.png' %}' /></a></li>
+
+        {% endif %}
+
+        {% if user.twitter %}
+            <li><a href="{{ user.twitter }}"><img src='{% static 'image/twt.png' %}' /></a></li>
+        {% endif %}
+
+        {% if user.youtube %}
+            <li><a href="{{ user.youtube }}"><img src='{% static 'image/you.png' %}' /></a></li>
+        {% endif %}
+
+        {% if user.website %}
+            <li><a href="{{ user.website }}"><img src='{% static 'image/web.png' %}' /></a></li>
+        {% endif %}
+    </ul>
 
 
 {% endblock %}

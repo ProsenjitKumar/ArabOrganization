@@ -166,7 +166,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     class Meta:
-        ordering = ('org_name',)
+        ordering = ('created_at',)
         index_together = (('id', 'slug'),)
 
     # Auto create slug according to Organization name
@@ -212,7 +212,7 @@ class BankInfo(models.Model):
     bank_account_no = models.CharField(max_length=100, unique=True, null=True, blank=True)
     bank_account_short_info = models.TextField(blank=True, null=True)
     position = models.PositiveSmallIntegerField(blank=True, null=True)
-    photo = models.ImageField(upload_to='user_photo/', blank=True, null=True)
+    photo = models.ImageField(upload_to='user_photo/', blank=True)
     permit = models.BooleanField(default=False)
     # Created at, updated at by(user name), ip, mac, address
     created_at = models.DateTimeField(auto_now_add=True)
@@ -220,11 +220,15 @@ class BankInfo(models.Model):
     slug = models.SlugField()
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.bank_name)
+        #self.slug = '/'.join((slugify(self.user), slugify(self.bank_account_name)))
+        self.slug = slugify(self.bank_account_name)
         super(BankInfo, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.user.org_name
+
+    def get_absolute_url(self):
+        return reverse('single_bank_account_detail', args=[self.id, self.slug])
 
 
 # def create_profile(sender, **kwargs):

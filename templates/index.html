@@ -5,11 +5,10 @@
     <head>
 
         {% block title %}
-            <link rel="icon" type="image/jpg" href="#"/>
+            <title>Organization</title>
+            <link rel="icon" type="image/png" href="{% static 'image/twt.png' %}"/>
         {% endblock %}
-
         <meta charset="utf-8">
-        <title>Organization</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Fonts -->
@@ -34,6 +33,7 @@
 
     </head>
     <body>
+
     <header class="main-header">
         <nav class="navbar navbar-static-top">
             <div class="navbar-top">
@@ -45,19 +45,20 @@
                              <li> <i class="fa fa-envelope"></i> <a href="mailto:contact@sadaka.org">...@gmail.com</a> </li>
                        </ul> <!-- /.header-contact  -->
                     </div>
+
                        <!-- /. Social Site  -->
                     <div class="col-sm-6 col-xs-12 text-right">
                         <ul class="list-unstyled list-inline header-social">
                             <li> <a href="#"> <i class="fa fa-facebook"></i> </a> </li>
                             <li> <a href="#"> <i class="fa fa-twitter"></i>  </a> </li>
-                            <li> <a href="#"> <i class="fa fa-google"></i>  </a> </li>
+                            <li> <a href="#"> <i class="fa fa-university"></i>  </a> </li>
                             <li> <a href="#"> <i class="fa fa-youtube"></i>  </a> </li>
-                            <li> <a href="#"> <i class="fa fa fa-pinterest-p"></i>  </a> </li>
                        </ul> <!-- /.header-social  -->
                     </div>
                   </div>
               </div>
             </div>
+
             <div class="navbar-main">
               <div class="container">
                 <div class="navbar-header">
@@ -67,22 +68,22 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </button>
+                    <a class="navbar-brand logo" href="/"><img style="width: 35px;height: 35px" src="{% static 'image/web.png' %}" alt=""></a>
                 </div>
+
                   <!-- /#Menu bar Home register Login-->
                 <div id="navbar" class="navbar-collapse collapse pull-right">
                   <ul class="nav navbar-nav">
                       <li><a href="{% url 'home' %}">Home</a></li>
-
-
+                      <li><a href="{% url 'all_bank_account' %}">Bank Acccount</a></li>
                        {% if request.user.is_authenticated %}
-                        <li><a href="{% url 'profile' %}"><span>Profile!</span></a></li>
-                        <li><a href="{% url 'bank_info_add_update' %}">Bank Info</a> </li>
-                         <li><a href="{% url 'logout' %}">Logout</a> </li>
-                           {% else %}
+                            <li><a href="{% url 'profile' %}"><span>Profile!</span></a></li>
+                            <li><a href="{% url 'bank_info_add_update' %}">Bank Info</a> </li>
+                            <li><a href="{% url 'logout' %}">Logout</a> </li>
+                       {% else %}
                            <li><a href="{% url 'register' %}">Register</a></li>
-                            <li><a href="{% url 'login' %}"><span>Login Now!</span></a></li>
+                           <li><a href="{% url 'login' %}"><span>Login Now!</span></a></li>
                       {% endif %}
-
                   </ul>
                 </div> <!-- /#navbar -->
               </div> <!-- /.container -->
@@ -90,6 +91,8 @@
         </nav>
     </header> <!-- /. main-header -->
 
+
+<!-- /#Search bar  -->
 <!-- /#Search bar Style -->
 <style>
 form.example input[type=text] {
@@ -124,43 +127,14 @@ form.example::after {
 }
 </style>
 
-    <br>
-<!-- /#Search bar  -->
+<br>
 <div style="text-align: center;">
     <form class="example" method="post" action="/available-organizer/">
         {% csrf_token %}
-      <input style="background: linear-gradient(white, #d1d9ff)" type="text" name="search" placeholder="Search with Organization, Bank name ...">
+      <input style="background: linear-gradient(white, #d1d9ff);" type="text" name="search" placeholder="Search with Organization, Bank name ...">
         <button type="submit"><i class="fa fa-search"></i></button>
     </form>
-</div>
-
-
-
-<!************* Home Page Dynamic Content ********************-->
-    <br>
-<div id="addEventForm" style="padding-left: 2%; padding-right: 2%">
-
-    {% for user in users %}
-
-        <div style="background: linear-gradient(rgba(151,165,154,0.33), #d1d9ff);font: bolder;
-        font-size: 16px;color: #19b212;padding-left: 2%;
-         padding-right: 2%;">
-            <p><label>Org Name:  </label><a href="{{ user.get_absolute_url }}"> {{ user.org_name }}</a></p>
-            <p><label>Email:  </label><a href="{{ user.get_absolute_url }}"> {{ user.email }}</a></p>
-            <p><label>Telephone:  </label><a href="{{ user.get_absolute_url }}"> {{ user.telephone }}</a></p>
-        </div>
-
-    {% endfor %}
-
-{% if users %}
-    <div>
-        <span>Total Organization: {{ users.count }}</span>
-    </div><br>
-{% endif %}
-
-  </div>
-
-
+</div><br>
 
 <!************* Content ********************-->
 

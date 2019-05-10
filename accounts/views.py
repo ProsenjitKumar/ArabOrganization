@@ -13,8 +13,10 @@ from django.views.generic import FormView, TemplateView
 # Home View
 def home(request):
     users = User.objects.filter(permit=True)
-    context = {"users": users}
-    return render(request, 'index.html', context)
+    banks = BankInfo.objects.all()
+    #banks = BankInfo.objects.all().order_by('created_at')[:2:1]
+    context = {"users": users, "banks": banks}
+    return render(request, 'home.html', context)
 
 
 def single_organization_detail(request, id, slug):
@@ -22,6 +24,24 @@ def single_organization_detail(request, id, slug):
     user = get_object_or_404(User, id=id, slug=slug)
     context = {"user": user}
     return render(request, 'organizer/single-organization-detail.html', context)
+
+
+# all bank account
+def all_bank_account(request):
+    banks = BankInfo.objects.all()
+    user = request.user
+    context = {
+        'banks': banks,
+        'user': user
+    }
+    return render(request, 'profile/all-bank-account.html', context)
+
+
+def single_bank_account_detail(request, id, slug):
+    # user = User.objects.get(pk=user_id)
+    user = get_object_or_404(BankInfo, id=id, slug=slug)
+    context = {"bank": user}
+    return render(request, 'profile/single-bank-account.html', context)
 
 
 # Login Page
@@ -66,7 +86,7 @@ def user_logout(request):
 User = get_user_model()
 @csrf_protect
 def register_page(request):
-    form = RegisterForm(request.POST or None)
+    form = RegisterForm(request.POST or None, request.FILES)
     context = {
         "form": form
     }
@@ -84,13 +104,15 @@ def profile(request):
     return render(request, 'profile/profile.html', args)
 
 
+
 # Bank Info Add and update
 @login_required
 def bank_info_add_update(request):
     user = request.user
-    form = BankInfoForm(request.POST)
+    #form = BankInfoForm(request.POST)
+    #form = BankInfoForm()
     if request.method == 'POST':
-        # form = BankInfoForm(request.POST)
+        form = BankInfoForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
@@ -98,13 +120,30 @@ def bank_info_add_update(request):
             return render(request, 'profile/success-bank-info-add-update.html')
     else:
         form = BankInfoForm(instance=request.user)
-
         context = {
             "banks": BankInfo.objects.filter(user=user),
             "form": form,
         }
         return render(request, 'profile/bank-info-add-update.html', context)
 
+# class BankInfoFormView(FormView):
+#     template_name = 'profile/bank-info-add-update.html'
+#     form_class = BankInfoForm
+#     success_url = '/success/'
+#
+#     # def get_context_data(self, **kwargs):
+#     #     context = super(BankInfoFormView, self).get_context_data(**kwargs)
+#     #     #context["testing_out"] = "this is a new context var"
+#     #     return context
+#
+#     def form_valid(self, form):
+#         self.object = form.save(commit=False)
+#         self.object.save()
+#         return super(BankInfoFormView, self).form_valid(form)
+
+
+class Success(TemplateView):
+    template_name = "profile/success-bank-info-add-update.html"
 
 # ***************************
 def available_organizer(request):
@@ -114,9 +153,18 @@ def available_organizer(request):
         if search:
             match = User.objects.filter(
                 Q(full_name__startswith=search) |
-                Q(email__icontains=search) |
-                Q(bank_account_name__startswith=search) |
-                Q(position__icontains=search)
+                Q(email__icontains=search)
+            )
+            if match:
+                return render(request, 'organizer/available-organization.html', {"match": match})
+            else:
+                messages.error(request, "No result found")
+
+        if search:
+            match = BankInfo.objects.filter(
+                Q(bank_account_name__contains=search) |
+                Q(bank_account_no__contains=search)
+
             )
             if match:
                 return render(request, 'organizer/available-organization.html', {"match": match})

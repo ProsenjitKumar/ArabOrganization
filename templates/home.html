@@ -1,0 +1,56 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load static %}
+{% block title %}<title>Organization Home Page</title>{% endblock %}
+
+<!************* Content ********************-->
+
+    {% block content %}
+
+        <!************* Home Page Dynamic Content ********************-->
+
+    <div class="container">
+            <div class="col-sm-8">
+                <!-- CONTENT HERE -->
+                {% for user in users %}
+
+                <div style="background: linear-gradient(rgba(151,165,154,0.33), #d1d9ff);font: bolder;
+                font-size: 16px;color: #19b212;padding-left: 2%;
+                 padding-right: 2%;">
+                    <p><label>Org Name:  </label><a href="{{ user.get_absolute_url }}"> {{ user.org_name }}</a></p>
+                    <p><label>Email:  </label><a href="{{ user.get_absolute_url }}"> {{ user.email }}</a></p>
+                    <p><label>Telephone:  </label><a href="{{ user.get_absolute_url }}"> {{ user.telephone }}</a></p>
+                </div>
+
+                 {% endfor %}
+            {% if users %}
+
+             <label>Status:</label>  <span style="text-align: center">Total Organization: {{ users.count }} Total Bank Account: {{ banks.count }}</span></span>
+
+            {% endif %}
+
+            </div>
+            <div class="col-sm-4">
+                <!-- SIDEBAR CONTENT HERE -->
+                {% for bank in banks %}
+                <div style="background: linear-gradient(rgba(193,211,197,0.33), #d1d9ff);font: bolder;
+                font-size: 16px;color: #19b212;padding-left: 2%;
+                 padding-right: 2%;">
+                    <label>we choice for you this org</label>
+                    <p><label>Org Name:  </label><a href="{{ bank.get_absolute_url }}"> {{ bank.org_name }}</a></p>
+                    {% if bank.photo %}
+                        <label><img style="width: 100px;height: 150px" src="{{ MEDIA_URL }} {{ bank.photo.url }}"></label>
+                    {% endif %}
+                    <p><label>Org Type:  </label><a href="{{ bank.get_absolute_url }}"> {{ bank.org_types }}</a></p>
+                    <p><a href="{{ bank.get_absolute_url }} "> <label>For more info…click here:<p hidden="">{{ bank.org_types }}</p></label></a></p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    <br>
+
+    {% endblock %}
+
+<!************* End Content ********************-->
+
+
