@@ -5,7 +5,8 @@ from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager
 )
 from django.db.models.signals import post_save
-from slugify import slugify, slugify_unicode
+from slugify import slugify_unicode
+from django.utils.text import slugify
 from django.urls import reverse
 
 
@@ -17,8 +18,22 @@ class OrgType(models.Model):
 
     # Auto create slug according to Organization Type name
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify_unicode(self.name)
         super(OrgType, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
+# -------- Organization Org Links as Many to Many field
+class OrgLinks(models.Model):
+    name = models.CharField(max_length=66)
+    slug = models.SlugField()
+
+    # Auto create slug according to Organization Type name
+    def save(self, *args, **kwargs):
+        self.slug = slugify_unicode(self.name)
+        super(OrgLinks, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -31,7 +46,7 @@ class State(models.Model):
 
     # Auto create slug according to state name
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify_unicode(self.name)
         super(State, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -45,7 +60,7 @@ class City(models.Model):
 
     # Auto create slug according to city name
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify_unicode(self.name)
         super(City, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -59,7 +74,7 @@ class Bank(models.Model):
 
     # Auto create slug according to Bank name
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify_unicode(self.name)
         super(Bank, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -135,13 +150,10 @@ class User(AbstractBaseUser):
     permit = models.BooleanField(default=False)
     state = models.ForeignKey(State, on_delete=models.CASCADE, null=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True)
-    org_links = models.URLField(blank=True)
-    bank_name = models.ForeignKey(Bank, on_delete=models.CASCADE, blank=True, null=True)
-    bank_account_name = models.CharField(max_length=100, blank=True, null=True)
-    bank_account_no = models.CharField(max_length=100, unique=True, null=True, blank=True)
-    bank_account_short_info = models.TextField(blank=True, null=True)
-    position = models.PositiveSmallIntegerField(blank=True, null=True)
-    photo = models.ImageField(upload_to='user_photo/', blank=True, null=True)
+    website = models.CharField(max_length=66, blank=True)
+    facebook = models.CharField(max_length=66, blank=True)
+    twitter = models.CharField(max_length=66, blank=True)
+    youtube = models.CharField(max_length=66, blank=True)
     # Created at, updated at by(user name), ip, mac, address
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -159,7 +171,7 @@ class User(AbstractBaseUser):
 
     # Auto create slug according to Organization name
     def save(self, *args, **kwargs):
-        self.slug = slugify_unicode(self.org_name)
+        self.slug = slugify_unicode(self.org_name, separator='_')
         super(User, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -193,16 +205,34 @@ class User(AbstractBaseUser):
         return self.active
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class BankInfo(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    bank_name = models.ForeignKey(Bank, on_delete=models.CASCADE, blank=True, null=True)
+    bank_account_name = models.CharField(max_length=100, blank=True, null=True)
+    bank_account_no = models.CharField(max_length=100, unique=True, null=True, blank=True)
+    bank_account_short_info = models.TextField(blank=True, null=True)
+    position = models.PositiveSmallIntegerField(blank=True, null=True)
+    photo = models.ImageField(upload_to='user_photo/', blank=True, null=True)
+    permit = models.BooleanField(default=False)
+    # Created at, updated at by(user name), ip, mac, address
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.bank_name)
+        super(BankInfo, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.user.org_name
 
 
-def create_profile(sender, **kwargs):
-    if kwargs['created']:
-        user_profile = Profile.objects.create(user=kwargs['instance'])
-
-
-post_save.connect(create_profile, sender=User)
+# def create_profile(sender, **kwargs):
+#     if kwargs['created']:
+#         user_profile = BankInfo.objects.create(user=kwargs['instance'])
+#
+#
+# post_save.connect(create_profile, sender=User)
 
 
 

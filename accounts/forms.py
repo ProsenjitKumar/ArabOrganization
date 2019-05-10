@@ -4,7 +4,7 @@ from crispy_forms.layout import Layout, Div, Submit, Row, Column, Field
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField, UserChangeForm
 from django.contrib.auth import get_user_model
-#from .models import User
+from .models import BankInfo
 
 User = get_user_model()
 
@@ -100,9 +100,9 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'org_name', 'org_short_name', 'logo', 'photo', 'address', 'telephone', 'whatsapp', 'fax', 'p_o_box',
+        fields = ('email', 'org_name', 'org_short_name', 'logo', 'address', 'telephone', 'whatsapp', 'fax', 'p_o_box',
                   'permit_number', 'permit_date', 'board_members', 'info', 'org_types', 'goals', 'projects',
-                  'state', 'city', 'org_links')
+                  'state', 'city', 'website', 'facebook', 'youtube', 'twitter')
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -127,57 +127,21 @@ class UserChangeForm(forms.ModelForm):
         model = User
         fields = ('email', 'full_name', 'org_name', 'org_short_name', 'logo', 'address', 'telephone', 'whatsapp',
                   'fax', 'p_o_box', 'permit_number', 'permit_date', 'board_members', 'info', 'org_types', 'goals',
-                  'projects', 'state', 'city', 'org_links', 'bank_name', 'bank_account_name', 'bank_account_no',
+                  'projects', 'state', 'city', 'website', 'facebook', 'youtube', 'twitter')
+
+
+class BankInfoUserChangeForm(forms.ModelForm):
+    class Meta:
+        model = BankInfo
+        fields = ('bank_name', 'bank_account_name', 'bank_account_no',
                   'bank_account_short_info', 'position', 'photo')
 
 
-# class BankInfoForm(forms.Form):
-#     def __init__(self, *args, **kwargs):
-#         super(BankInfoForm, self).__init__(*args, **kwargs)
-#     bank_name =  forms.CharField(label='Bank Name', widget=forms.Select(choices=get_bank_name()))
-#     bank_account_name = forms.CharField(max_length=100)
-#     bank_account_no = forms.CharField(max_length=100)
-#     bank_account_short_info = forms.CharField(widget=forms.Textarea)
-#     position = forms.IntegerField()
-#     photo = forms.ImageField(required=False)
-#
-#
-# class CrispyBankInfoForm(BankInfoForm):
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.helper = FormHelper()
-#         self.helper.layout = Layout(
-#             Row(
-#                 Field('bank_name', css_class='form-group col-md-6 mb-0'),
-#                 Column('bank_account_name', css_class='form-group col-md-6 mb-0'),
-#                 Column('bank_account_no', css_class='form-group col-md-6 mb-0'),
-#                 Column('position', css_class='form-group col-md-6 mb-0'),
-#                 Column('photo', css_class='form-group col-md-6 mb-0'),
-#                 css_class='form-row'
-#             ),
-#             Row(
-#                 Column('bank_account_short_info', css_class='form-group col-md-6 mb-0'),
-#             ),
-#             Submit('submit', 'Submit')
-#         )
-
-
-class BankInfoForm(UserChangeForm):
+class BankInfoForm(forms.ModelForm):
     class Meta:
-        model = User
+        model = BankInfo
         fields = ('bank_name', 'bank_account_name', 'bank_account_no',
                   'bank_account_short_info', 'position', 'photo',)
-        # labels = {
-        #     'bank_name': _('name Of the Bank'),
-        # }
-        # help_texts = {
-        #     'bank_account_no': _('Some useful help text.'),
-        # }
-        # error_messages = {
-        #     'bank_account_short_info': {
-        #         'max_length': _("This Info is too long."),
-        #     },
-        # }
 
 
 

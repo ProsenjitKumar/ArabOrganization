@@ -105,6 +105,25 @@
      .bottom{
          padding-left: 7.5%;
      }
+
+     .social-icons {
+          text-align: center;
+          }
+        .social-icons li {
+          display:inline-block;
+          list-style-type:none;
+          -webkit-user-select:none;
+          -moz-user-select:none;
+          }
+        .social-icons li a {
+          border-bottom: none;
+          }
+        .social-icons li img {
+          width:50px;
+          height:50px;
+          margin-right: 20px;
+        }
+
     </style>
 
 
@@ -127,27 +146,29 @@
 
         <p>
         <label>URL Link</label>
-        <span>{{ user.org_links }}</span>
+        <span>{{ user.website }}</span>
         </p>
     </div><br>
 
     <!-- Organization Social Site -->
-    <div class="bottom">
-        <a class="btn btn-primary btn-twitter btn-sm" href="#">
-            <i class="fa fa-twitter"></i>
-        </a>
-        <a class="btn btn-danger btn-sm" rel="publisher"
-           href="#">
-            <i class="fa fa-google-plus"></i>
-        </a>
-        <a class="btn btn-primary btn-sm" rel="publisher"
-           href="#">
-            <i class="fa fa-facebook"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher" href="#">
-            <i class="fa fa-behance"></i>
-        </a>
-    </div><br><br>
+
+    <ul class="social-icons">
+        {% if user.facebook %}
+            <li><a href="{{ user.facebook }}"><img src='{% static 'image/fb.png' %}' /></a></li>
+        {% endif %}
+
+        {% if user.twitter %}
+            <li><a href="{{ user.twitter }}"><img src='{% static 'image/twt.png' %}' /></a></li>
+        {% endif %}
+
+        {% if user.youtube %}
+            <li><a href="{{ user.youtube }}"><img src='{% static 'image/you.png' %}' /></a></li>
+        {% endif %}
+
+        {% if user.website %}
+            <li><a href="{{ user.website }}"><img src='{% static 'image/web.png' %}' /></a></li>
+        {% endif %}
+    </ul>
 
 
 {% endblock %}

@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 from .forms import RegisterForm, LoginForm, BankInfoForm
 from django.db.models import Q
+from .models import BankInfo
 from django.views.generic import FormView, TemplateView
 
 
@@ -86,15 +87,20 @@ def profile(request):
 # Bank Info Add and update
 @login_required
 def bank_info_add_update(request):
+    user = request.user
+    form = BankInfoForm(request.POST)
     if request.method == 'POST':
-        form = BankInfoForm(request.POST, instance=request.user)
-
+        # form = BankInfoForm(request.POST)
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
             return render(request, 'profile/success-bank-info-add-update.html')
     else:
         form = BankInfoForm(instance=request.user)
+
         context = {
+            "banks": BankInfo.objects.filter(user=user),
             "form": form,
         }
         return render(request, 'profile/bank-info-add-update.html', context)

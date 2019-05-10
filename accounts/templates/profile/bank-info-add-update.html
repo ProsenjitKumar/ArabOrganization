@@ -43,6 +43,18 @@
 			</div>
     <br>
 
+    {% for bank in banks %}
+    <div style="padding-left: 2%;">
+
+        <li><span style="color: #4cae4c;font-size: 15px;">Bank Name: </span>{{ bank.bank_name }}</li>
+        <li><span>Bank Account Short info: {{ bank.bank_account_short_info }}</span></li>
+        <li><span>Bank Account Name: {{ bank.bank_account_name }}</span></li>
+
+    </div><br>
+    {% endfor %}
+
+        <br>
+
 {% endblock %}
 
 
