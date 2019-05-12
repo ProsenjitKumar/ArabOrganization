@@ -13,17 +13,18 @@ from django.views.generic import FormView, TemplateView
 # Home View
 def home(request):
     users = User.objects.filter(permit=True)
-    banks = BankInfo.objects.all()
+    banks = BankInfo.objects.all().order_by('-created_at')
     #banks = BankInfo.objects.all().order_by('created_at')[:2:1]
     context = {"users": users, "banks": banks}
     return render(request, 'home.html', context)
 
 
 def single_organization_detail(request, id, slug):
-    # user = User.objects.get(pk=user_id)
     user = get_object_or_404(User, id=id, slug=slug)
-    context = {"user": user}
-    return render(request, 'organizer/single-organization-detail.html', context)
+    banks = BankInfo.objects.filter(user=user)
+    context = {"user": user, "banks": banks}
+    return render(request, 'organizer/index.html', context)
+    #return render(request, 'organizer/single-organization-detail.html', context)
 
 
 # all bank account
@@ -126,24 +127,6 @@ def bank_info_add_update(request):
         }
         return render(request, 'profile/bank-info-add-update.html', context)
 
-# class BankInfoFormView(FormView):
-#     template_name = 'profile/bank-info-add-update.html'
-#     form_class = BankInfoForm
-#     success_url = '/success/'
-#
-#     # def get_context_data(self, **kwargs):
-#     #     context = super(BankInfoFormView, self).get_context_data(**kwargs)
-#     #     #context["testing_out"] = "this is a new context var"
-#     #     return context
-#
-#     def form_valid(self, form):
-#         self.object = form.save(commit=False)
-#         self.object.save()
-#         return super(BankInfoFormView, self).form_valid(form)
-
-
-class Success(TemplateView):
-    template_name = "profile/success-bank-info-add-update.html"
 
 # ***************************
 def available_organizer(request):
@@ -152,22 +135,22 @@ def available_organizer(request):
 
         if search:
             match = User.objects.filter(
-                Q(full_name__startswith=search) |
-                Q(email__icontains=search)
+                Q(org_name__icontains=search) |
+                Q(telephone__startswith=search) |
+                Q(org_short_name__startswith=search) |
+                Q(state__name__icontains=search) |
+                Q(city__name__icontains=search)
             )
             if match:
                 return render(request, 'organizer/available-organization.html', {"match": match})
-            else:
-                messages.error(request, "No result found")
 
-        if search:
-            match = BankInfo.objects.filter(
+            banks = BankInfo.objects.filter(
+                Q(bank_name__name__icontains=search) |
                 Q(bank_account_name__contains=search) |
-                Q(bank_account_no__contains=search)
-
+                Q(bank_account_no__exact=search)
             )
             if match:
-                return render(request, 'organizer/available-organization.html', {"match": match})
+                return render(request, 'profile/all-bank-account.html', {"banks": banks})
             else:
                 messages.error(request, "No result found")
         else:

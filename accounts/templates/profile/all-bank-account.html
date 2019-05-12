@@ -39,7 +39,7 @@
                 <div class="col-sm-4">
                     <!-- SIDEBAR CONTENT HERE -->
                     <p><span><a href="{{ bank.get_absolute_url }}">Position:</a> </span>{{ bank.position }}</p>
-                    <label><img style="width: 50px;height: 50px" src="{{ MEDIA_URL }} {{ bank.logo.url }}"></label>
+                    <label><img style="width: 50px;height: 50px" src="{{ MEDIA_URL }} {{ user.logo.url }}"></label>
 
                 </div>
          {% endfor %}

@@ -1,0 +1,210 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="{% static  'profile/css/font-awesome.min.css'%}">
+        <link rel="stylesheet" href="{% static 'profile/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'profile/style.css' %}">
+        <title>{{ user.org_short_name }}</title>
+        
+    </head>
+    
+    <body>
+        <header class="header"><br>
+
+        <div>
+            <label style="float:right;align-items: center;margin-right: 5%; color: #4fc7a4;font-size: 18px">Org name: {{ user.org_name }}</label>
+            <label style="float:left;align-items: center;margin-left: 5%; color: #4fc7a4;font-size: 18px"><a href="{% url 'home' %}">Home</a> </label>
+        </div>
+
+            <div class="container">
+                <div class="col-md-12 logo" align="center">
+                    {% if user.logo %}
+                        <img src="{{ MEDIA_URL }} {{ user.logo.url }}" alt="CSGO Howl" style="width: 150px;height: 160px;">
+                    {% endif %}
+                </div>
+                <div class="col-md-12 info">
+                    <p dir="rtl" lang="ar">{{ user.info }}</p>
+                </div>
+            </div>
+        </header>
+        <section class="menuall">
+            <div class="container">
+                <div class="col-md-12">
+                    <div class="col-md-6 content">
+                         <p>{{ user.permit_number }}</p>
+                    </div>
+                    <div class="col-md-6 permit">
+                        <div class="menu" dir="rtl">
+                            <ul>
+                                <li><a href="">Permit :</a></li>
+                            </ul>
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-6 content1">
+                         <p>{{ user.permit_date }}</p>
+                    </div>
+                    <div class="col-md-6 permit">
+                        <div class="menu1" dir="rtl">
+                            <ul>
+                                <li><a href="">Date :</a></li>
+                            </ul>
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-6 content2">
+                         <p>{{ user.org_types }}</p>
+                    </div>
+                    <div class="col-md-6 permit">
+                        <div class="menu2" dir="rtl">
+                            <ul>
+                                <li><a href="">Type :</a></li>
+                            </ul>
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-6 content3">
+                         <p dir="rtl" lang="ar">{{ user.goals }}</p>
+                    </div>
+                    <div class="col-md-6 permit">
+                        <div class="menu3" dir="rtl">
+                            <ul>
+                                <li><a href="">Goals :</a></li>
+                            </ul>
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-6 content4" dir="rtl" lang="ar">
+                         <p>
+                             <li>رعاية الأسر الفقيره ، والسعي لتخفيف ما تعانيه بتوفير الغذاء واللبا</li>
+                             <li>الاشتراك مع الهئيات الأهلية والحكومية منكوبي الكوارث العامة .</li>
+                             <li>العناية بالايتام وذوي الاحتياجات الخاصة .</li>
+                             <li>دعم الأسر المنتجة وتطويرها وتأهيلها بالبرامج التدريبية .</li>
+                             <li>العناية بالايتام وذوي الاحتياجات الخاصة .</li>
+                             <li>العناية بالايتام وذوي الاحتياجات الخاصة .</li>
+                        {{ user.board_members }}
+                         </p>
+                    </div>
+                    <div class="col-md-6 permit">
+                        <div class="menu4" dir="rtl">
+                            <ul>
+                                <li><a href="">Board Member :</a></li>
+                            </ul>
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-6 content5" dir="rtl" lang="ar">
+                         <p dir="rtl">{{ user.address }}</p>
+                    </div>
+                    <div class="col-md-6 permit">
+                        <div class="menu5" dir="rtl">
+                            <ul>
+                                <li><a href="">Address :</a></li>
+                            </ul>
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-6 content6" dir="rtl" lang="ar">
+                         <p>P.O Box : {{ user.p_o_box }}</p>
+
+                         <p>Fax : {{ user.fax }}</p>
+                         <p>Mobail : {{ user.telephone }}</p>
+                    </div>
+                    <div class="col-md-6 permit">
+                        <div class="menu6" dir="rtl">
+                            <ul>
+                                <li><a href="">Contacts :</a></li>
+                            </ul>
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-6 content7">
+                         
+
+                        <table class="table table-dark">
+                            {% for bank in banks %}
+                              <thead>
+                                <tr>
+                                  <th scope="col">Bank Number</th>
+                                  <th scope="col">Bank Name</th>
+                                  <th scope="col">Bank Account Name</th>
+                                  <th scope="col">Position</th>
+
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                <tr>
+                                  <td>{{ request.user.bank_account_no }}</td>
+
+                                <tr>
+                                  <td>{{ bank.bank_name }}</td>
+                                </tr>
+
+                                <tr>
+                                  <td>{{ bank.bank_account_name }}</td>
+
+                                <tr>
+                                  <td>{{ bank.position }}</td>
+                                </tr>
+                              </tbody>
+                            {% endfor %}
+
+                        </table>
+
+                    </div>
+                    <div class="col-md-6 permit">
+                        <div class="menu7" dir="rtl">
+                            <ul>
+                                <li><a href="">Bank Account :</a></li>
+                            </ul>
+                        </div> 
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section >
+            <div class="container">
+
+                <div class="col-md-12 icon" align="center" >
+                    {% if user.youtube %}
+                        <a href="{{ user.youtube }}"><i class="fa fa-youtube-square"></i></a>
+                    {% endif %}
+                    {% if user.facebook %}
+                        <a href="{{ user.facebook }}"><i class="fa fa-facebook-square"></i></a>
+                    {% endif %}
+                    {% if user.twitter %}
+                        <a href="{{ user.twitter }}"><i class="fa fa-twitter-square"></i></a>
+                    {% endif %}
+                    {% if user.website %}
+                        <a href="{{ user.website }}"><i class="fa fa-home"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        
+    <script src="{% static 'profile/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'profile/js/jquery-1.12.0.js' %}"></script>
+    </body>
+</html>
+

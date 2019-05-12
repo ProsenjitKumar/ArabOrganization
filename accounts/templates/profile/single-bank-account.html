@@ -21,7 +21,10 @@
             {% if bank.photo %}
                 <label><img style="width: 250px;height: 350px" src="{{ MEDIA_URL }} {{ bank.photo.url }}"></label>
             {% endif %}
+            <p><span>Org Name: </span>{{ bank.user.org_name }}</p>
         </div><br>
+
+
 
 
 {% endblock %}
